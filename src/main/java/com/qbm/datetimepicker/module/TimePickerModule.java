@@ -37,6 +37,7 @@ public class TimePickerModule extends WXModule {
     private static final String KEY_TITLE = "title";
     private static final String KEY_MAX = "max";
     private static final String KEY_MIN = "min";
+
     private static final String KEY_ITEMS = "items";
 
     private static final String KEY_TITLE_COLOR = "titleColor";
@@ -51,21 +52,23 @@ public class TimePickerModule extends WXModule {
     }
 
     private void datePicker(Map<String, Object> params, final JSCallback callback) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
         String now = sdf.format(new Date());
         String value = getOption(params, KEY_VALUE, now);
         String title = getOption(params, KEY_TITLE, "选择时间");
-        String max = getOption(params, KEY_MAX, "2099-12-31 23:59");
-        String min = getOption(params, KEY_MIN, "1900-12-31 00:00");
+        String max = getOption(params, KEY_MAX, "2099-12-31 23:59:59");
+        String min = getOption(params, KEY_MIN, "1900-12-31 00:00:00");
+
         String titleColor = getOption(params, KEY_TITLE_COLOR, "#313131");
         String cancelTitle = getOption(params, KEY_CANCEL_TITLE, "取消");
         String cancelTitleColor = getOption(params, KEY_CANCEL_TITLE_COLOR, "#313131");
         String confirmTitle = getOption(params, KEY_CONFIRM_TITLE, "确认");
         String confirmTitleColor = getOption(params, KEY_CONFIRM_TITLE_COLOR, "#00B4FF");
+        boolean dateMode = getOption(params, "dateMode", false);
 
 
         new CustomDatePicker(mWXSDKInstance.getContext(), min, max, title, titleColor,
-                confirmTitle, confirmTitleColor, cancelTitle, cancelTitleColor, value, new CustomDatePicker.OnPickListener() {
+                confirmTitle, confirmTitleColor, cancelTitle, cancelTitleColor, value,dateMode, new CustomDatePicker.OnPickListener() {
 
             @Override
             public void onPick(boolean set, @Nullable String time) {
